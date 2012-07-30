@@ -1,26 +1,24 @@
+'use strict';
 
-/**
- * Module dependencies.
- */
-
-var express = require('express'),
-    routes = require('./routes'),
+var connect = require('connect'),
+    express = require('express'),
+    redis = require('redis'),
+    fs = require('fs'),
     http = require('http'),
+
+    RedisStore = require('connect-redis')(express),
+    redisClients = {
+        pub: redis.createClient(),
+        sub: redis.createClient(),
+        cache: redis.createClient()
+    },
+    sessionStore = new RedisStore({ client: redisClients.cache }),
     app = express(),
-    irc = require('irc');
+    server = http.createServer(app),
+    routes = require('./routes'),
 
-var bot = new irc.Client('irc.freenode.net', 'cIRCa', {
-    debug: true,
-    channels: ['#RockChMS'],
-});
-
-bot.addListener('message', function (from, to, message) {
-    console.log(from + ' => ' + to + ': ' + message);
-});
-
-// bot.addListener('raw', function (msg) {
-//     console.log(msg);
-// });
+    ircServer = require('./lib/ircServer'),
+    socketServer = require('./lib/socketServer');
 
 app.configure(function () {
     app.set('port', process.env.PORT || 3000);
@@ -29,6 +27,12 @@ app.configure(function () {
     app.use(express.favicon());
     app.use(express.logger('dev'));
     app.use(express.bodyParser());
+    app.use(express.cookieParser());
+     app.use(express.session({
+         secret: 'keyboardcat',
+         store: sessionStore
+     }));
+    app.use(connect.csrf());
     app.use(express.methodOverride());
     app.use(app.router);
     app.use(express.static(__dirname + '/public'));
@@ -40,6 +44,10 @@ app.configure('development', function () {
 
 app.get('/', routes.index);
 
-http.createServer(app).listen(app.get('port'), function () {
+server.listen(app.get('port'), function () {
     console.log("Express server listening on port " + app.get('port'));
 });
+
+socketServer.init(server, sessionStore, redisClients);
+//ircServer.init(redisClients);
+socketServer.start();
