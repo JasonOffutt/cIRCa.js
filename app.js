@@ -24,11 +24,11 @@ var SITE_SECRET = 'keyboardcat',
 
 webServer.configure(__dirname, sessionStore, SITE_SECRET).start();
 
-socketServer.init({
+socketServer.configure({
     server: server, 
     sessionStore: sessionStore, 
     redisClients: redisClients
 }, SITE_SECRET);
 
-ircServer.init({ redisClients: redisClients });
+ircServer.configure({ redisClients: redisClients }).start();
 socketServer.start();
