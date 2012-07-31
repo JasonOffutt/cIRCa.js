@@ -1,6 +1,6 @@
 'use strict';
 
-var connect = require('connect'),
+var SITE_SECRET = 'keyboardcat',
     express = require('express'),
     redis = require('redis'),
     fs = require('fs'),
@@ -13,41 +13,22 @@ var connect = require('connect'),
         cache: redis.createClient()
     },
     sessionStore = new RedisStore({ client: redisClients.cache }),
-    app = express(),
-    server = http.createServer(app),
-    routes = require('./routes'),
 
+    webServer = require('./lib/webServer'),
     ircServer = require('./lib/ircServer'),
-    socketServer = require('./lib/socketServer');
+    socketServer = require('./lib/socketServer'),
+    server = webServer.init({
+        http: http,
+        express: express,
+    });
 
-app.configure(function () {
-    app.set('port', process.env.PORT || 3000);
-    app.set('views', __dirname + '/views');
-    app.set('view engine', 'jade');
-    app.use(express.favicon());
-    app.use(express.logger('dev'));
-    app.use(express.bodyParser());
-    app.use(express.cookieParser());
-     app.use(express.session({
-         secret: 'keyboardcat',
-         store: sessionStore
-     }));
-    app.use(connect.csrf());
-    app.use(express.methodOverride());
-    app.use(app.router);
-    app.use(express.static(__dirname + '/public'));
-});
+webServer.configure(__dirname, sessionStore, SITE_SECRET).start();
 
-app.configure('development', function () {
-    app.use(express.errorHandler());
-});
+socketServer.init({
+    server: server, 
+    sessionStore: sessionStore, 
+    redisClients: redisClients
+}, SITE_SECRET);
 
-app.get('/', routes.index);
-
-server.listen(app.get('port'), function () {
-    console.log("Express server listening on port " + app.get('port'));
-});
-
-socketServer.init(server, sessionStore, redisClients);
-//ircServer.init(redisClients);
+ircServer.init({ redisClients: redisClients });
 socketServer.start();
