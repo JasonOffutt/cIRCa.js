@@ -6,6 +6,10 @@ var authService = require('../lib/authService');
 
 // Module code/docs found here: https://github.com/ciaranj/node-oauth
 
+// Twitter OAuth docs: https://dev.twitter.com/docs/auth/using-oauth
+// Google OAuth 2.0 docs: https://developers.google.com/accounts/docs/OAuth2WebServer
+// Facebook OAuth 2.0 docs: https://developers.facebook.com/docs/authentication/server-side/
+
 // GET /auth/twitter
 exports.twitterAuth = function (req, res) {
 	authService.login('twitter', function (err, oauth_token, oauth_token_secret, results) {
@@ -50,6 +54,10 @@ exports.facebookAuth = function (req, res) {
 	// TODO: Handle this route with a redirect?
 };
 
+exports.facebookAuth = function (req, res) {
+
+};
+
 // GET /auth/google
 exports.googleAuth = function (req, res) {
 	authService.login('google', function (err, oauth_token, oauth_token_secret, results) {
@@ -60,7 +68,7 @@ exports.googleAuth = function (req, res) {
 				token: oauth_token,
 				token_secret: oauth_token_secret
 			};
-			res.redirect('https://www.google.com/accounts/OAuthAuthorizeToken?oaut_token=' + oauth_token);
+			res.redirect('https://www.googleapis.com/oauth2/v1/userinfo?access_token=' + oauth_token);
 		}
 	});
 };
