@@ -54,7 +54,7 @@ exports.facebookAuth = function (req, res) {
 	// TODO: Handle this route with a redirect?
 };
 
-exports.facebookAuth = function (req, res) {
+exports.facebookCallback = function (req, res) {
 
 };
 
@@ -85,7 +85,7 @@ exports.googleCallback = function (req, res) {
 		{
 			token: oauth.token,
 			token_secret: oauth.token_secret,
-			verifier: oauth: verifier
+			verifier: oauth.verifier
 		}, 
 		function (err, oauth_access_token, oauth_access_token_secret, results) {
 			if (err) {

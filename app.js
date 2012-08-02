@@ -30,5 +30,5 @@ socketServer.configure({
     redisClients: redisClients
 }, SITE_SECRET);
 
-ircServer.configure({ redisClients: redisClients }).start();
+//ircServer.configure({ redisClients: redisClients }).start();
 socketServer.start();
