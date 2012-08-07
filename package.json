@@ -9,10 +9,10 @@
     "connect": "2.4.2",
     "connect-redis": "1.2.0",
     "cookie": "",
+    "everyauth": "0.2.32",
     "express": "3.0.*",
     "irc": "0.3.*",
     "jade": "*",
-    "oauth": "0.9.8",
     "redis": "0.7.1",
     "socket.io": "0.9",
     "underscore": "1.3.2"
