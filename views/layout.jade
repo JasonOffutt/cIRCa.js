@@ -4,6 +4,12 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    aside
+    - if (everyauth.loggedIn)
+        span Welcome #{everyauth.user.name}
+    - else
+        a(href='auth/twitter') Log in with twitter
+
     block content
     script(type='text/javascript', src='socket.io/socket.io.js')
     script(type='text/javascript', src='javascripts/vendor/jquery-1.7.2.min.js')
