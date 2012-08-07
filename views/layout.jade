@@ -4,6 +4,25 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    // TODO: Break the login section below into a partial...
+    aside
+        - if (everyauth.loggedIn)
+            - if (everyauth.twitter)
+                span Welcome #{everyauth.twitter.user.name}
+            - else if (everyauth.facebook)
+                span Welcome #{everyauth.facebook.user.name}
+            - else if (everyauth.google)
+                span Welcome #{everyauth.google.user.name}
+            a(href='/logout') Log out
+        - else
+            ul
+                li
+                    a(href='/auth/twitter') Log in with twitter
+                li
+                    a(href='/auth/facebook') Log in with facebook
+                li
+                    a(href='/auth/google') Log in with google
+
     block content
     script(type='text/javascript', src='socket.io/socket.io.js')
     script(type='text/javascript', src='javascripts/vendor/jquery-1.7.2.min.js')
