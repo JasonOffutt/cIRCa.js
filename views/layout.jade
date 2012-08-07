@@ -5,10 +5,11 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     aside
-    - if (everyauth.loggedIn)
-        span Welcome #{everyauth.user.name}
+    - if (everyauth.loggedIn && everyauth.twitter)
+        span Welcome #{everyauth.twitter.user.name}
+        a(href='/logout') Log out
     - else
-        a(href='auth/twitter') Log in with twitter
+        a(href='/auth/twitter') Log in with twitter
 
     block content
     script(type='text/javascript', src='socket.io/socket.io.js')
