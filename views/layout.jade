@@ -5,11 +5,18 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     aside
-    - if (everyauth.loggedIn && everyauth.twitter)
-        span Welcome #{everyauth.twitter.user.name}
+    - if (everyauth.loggedIn)
+        - if (everyauth.twitter)
+            span Welcome #{everyauth.twitter.user.name}
+        - else if (everyauth.facebook)
+            span Welcome #{everyauth.facebook.user.name}
+        - else if (everyauth.google)
+            span Welcome #{everyauth.google.user.name}
         a(href='/logout') Log out
     - else
         a(href='/auth/twitter') Log in with twitter
+        a(href='/auth/facebook') Log in with facebook
+        a(href='/auth/google') Log in with google
 
     block content
     script(type='text/javascript', src='socket.io/socket.io.js')
