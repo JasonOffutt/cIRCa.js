@@ -2,7 +2,10 @@ doctype 5
 html
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(type='text/javascript', src='js/vendor/modernizr/modernizr-2.6.1.custom.min.js')
+    link(rel='stylesheet', href='/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/css/bootstrap-responsive.min.css')
+    link(rel='stylesheet', href='/css/style.css')
   body
     // TODO: Break the login section below into a partial...
     aside
@@ -25,5 +28,4 @@ html
 
     block content
     script(type='text/javascript', src='socket.io/socket.io.js')
-    script(type='text/javascript', src='javascripts/vendor/jquery-1.7.2.min.js')
-    script(type='text/javascript', src='javascripts/main.js')
+    script(type='text/javascript', src='js/vendor/require/require-2.0.5.min.js', data-main='js/main')
