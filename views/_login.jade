@@ -1,0 +1,20 @@
+aside
+    - if (everyauth.loggedIn)
+        - if (everyauth.twitter)
+            span Welcome 
+                a(href='/userprofile') #{everyauth.twitter.user.name}
+        - else if (everyauth.facebook)
+            span Welcome 
+                a(href='/userprofile') #{everyauth.facebook.user.name}
+        - else if (everyauth.google)
+            span Welcome 
+                a(href='/userprofile') #{everyauth.google.user.name}
+        a(href='/logout') Log out
+    - else
+        ul
+            li
+                a(href='/auth/twitter') Log in with twitter
+            li
+                a(href='/auth/facebook') Log in with facebook
+            li
+                a(href='/auth/google') Log in with google

@@ -1,5 +1,5 @@
 'use strict';
 
 exports.index = function (req, res) {
-	res.render('userprofile', {});
+	res.render('userprofile', { title: 'User Profile' });
 };

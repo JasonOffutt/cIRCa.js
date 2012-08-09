@@ -7,28 +7,7 @@ html
     link(rel='stylesheet', href='/css/bootstrap-responsive.min.css')
     link(rel='stylesheet', href='/css/style.css')
   body
-    // TODO: Break the login section below into a partial...
-    aside
-        - if (everyauth.loggedIn)
-            - if (everyauth.twitter)
-                span Welcome 
-                    a(href='/userprofile') #{everyauth.twitter.user.name}
-            - else if (everyauth.facebook)
-                span Welcome 
-                    a(href='/userprofile') #{everyauth.facebook.user.name}
-            - else if (everyauth.google)
-                span Welcome 
-                    a(href='/userprofile') #{everyauth.google.user.name}
-            a(href='/logout') Log out
-        - else
-            ul
-                li
-                    a(href='/auth/twitter') Log in with twitter
-                li
-                    a(href='/auth/facebook') Log in with facebook
-                li
-                    a(href='/auth/google') Log in with google
-
+    include _login
     block content
     script(type='text/javascript', src='socket.io/socket.io.js')
     script(type='text/javascript', src='js/vendor/require/require-2.0.5.min.js', data-main='js/main')
