@@ -1,5 +1,5 @@
 'use strict';
 
 exports.index = function (req, res) {
-	res.render('botlist', {});
+	res.render('userprofile', {});
 };

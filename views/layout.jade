@@ -11,11 +11,14 @@ html
     aside
         - if (everyauth.loggedIn)
             - if (everyauth.twitter)
-                span Welcome #{everyauth.twitter.user.name}
+                span Welcome 
+                    a(href='/userprofile') #{everyauth.twitter.user.name}
             - else if (everyauth.facebook)
-                span Welcome #{everyauth.facebook.user.name}
+                span Welcome 
+                    a(href='/userprofile') #{everyauth.facebook.user.name}
             - else if (everyauth.google)
-                span Welcome #{everyauth.google.user.name}
+                span Welcome 
+                    a(href='/userprofile') #{everyauth.google.user.name}
             a(href='/logout') Log out
         - else
             ul
