@@ -3,7 +3,7 @@
 
 	require.config({
 		paths: {
-			backbone: 				'vendor/backbone/backbone.require',
+			backbone: 				'vendor/backbone/backbone-0.9.2.min',
 			backboneExtensions: 	'lib/backboneExtensions',
 			bootstrap: 				'vendor/bootstrap/bootsrap.min',
 			bot: 					'models/Bot',
@@ -13,33 +13,57 @@
 			circaPresenter: 		'presenters/CircaPresenter',
 			circaRouter: 			'routers/CircaRouter',
 			events: 				'lib/events',
-			handlebars: 			'vendor/handlebars/handlebars.require',
+			handlebars: 			'vendor/handlebars/handlebars-1.0.0beta6',
 			homePageView: 			'views/HomePage',
 			jquery: 				'vendor/jquery/jquery-1.7.2.min',
-			json: 					'vendor/json/json.require',
-			order: 					'vendor/require/order',
+			jqueryExtensions: 		'lib/jqueryExtensions',
+			json: 					'vendor/json/json2',
 			socketClient: 			'lib/socketClient',
 			templateManager: 		'lib/TemplateManager',
-			trafficCop: 			'lib/TrafficCop',
-			underscore: 			'vendor/underscore/underscore.require',
+			underscore: 			'vendor/underscore/underscore-1.3.3.min',
 			user: 					'models/User'
+		},
+		shim: {
+			'underscore': {
+				deps: [],
+				exports: '_'
+			},
+			'jquery': {
+				deps: [],
+				exports: '$'
+			},
+			'backbone': {
+				deps: [ 'underscore', 'jquery' ],
+				exports: 'Backbone'
+			},
+			'json': {
+				deps: [],
+				exports: 'JSON'
+			},
+			'handlebars': {
+				deps: [],
+				exports: 'Handlebars'
+			}
 		},
 		callback: function () {
 			require(
 				[
-					'order!jquery', 
-					'order!underscore', 
-					'order!backbone', 
-					'order!backboneExtensions', 
+					'jquery',
+					'jqueryExtensions',
+					'underscore', 
+					'backbone', 
+					'backboneExtensions', 
 					'socketClient', 
 					'circaRouter'
 				], 
-				function ($, _, Backbone, extensions, socketClient, CircaRouter) {
+				function ($, jqueryExtensions, _, Backbone, backboneExtensions, socketClient, CircaRouter) {
+					jqueryExtensions.init();
+					backboneExtensions.init();
 					socketClient.init();
 
 					var router = new CircaRouter();
 					Backbone.history.start({ pushState: true });
-			});
+				});
 		}
 	});
 } ());

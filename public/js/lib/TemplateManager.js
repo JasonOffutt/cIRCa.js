@@ -1,4 +1,4 @@
-define(['trafficCop', 'underscore', 'handlebars'], function ($, _, Handlebars) {
+define(['jquery' ,'underscore', 'handlebars'], function ($, _, Handlebars) {
 	'use strict';
 
 	var TemplateManager = {
