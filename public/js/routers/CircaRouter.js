@@ -10,7 +10,7 @@ define(['underscore','backbone', 'circaPresenter'], function (_, Backbone, Circa
 			'bots/:id': 'getBot',
 			'bots': 'botList',
 			'': 'index',
-			'*options', 'notFound'
+			'*options': 'notFound'
 		},
 		initialize: function (options) {
 			this.ev = options.ev;
@@ -28,10 +28,10 @@ define(['underscore','backbone', 'circaPresenter'], function (_, Backbone, Circa
 		},
 		newBot: function () {
 			this.presenter.newBot();
-		}
+		},
 		getBot: function (id) {
 			this.presenter.showBot(id);
-		}
+		},
 		botList: function () {
 			this.presenter.showBotList();
 		},

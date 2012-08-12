@@ -2,13 +2,13 @@ aside
     - if (everyauth.loggedIn)
         - if (everyauth.twitter)
             span Welcome 
-                a(href='/userprofile') #{everyauth.twitter.user.name}
+                a(href='/account') #{everyauth.twitter.user.name}
         - else if (everyauth.facebook)
             span Welcome 
-                a(href='/userprofile') #{everyauth.facebook.user.name}
+                a(href='/account') #{everyauth.facebook.user.name}
         - else if (everyauth.google)
             span Welcome 
-                a(href='/userprofile') #{everyauth.google.user.name}
+                a(href='/account') #{everyauth.google.user.name}
         a(href='/logout') Log out
     - else
         ul
