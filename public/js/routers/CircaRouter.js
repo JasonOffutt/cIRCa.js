@@ -16,6 +16,10 @@ define(['underscore','backbone', 'circaPresenter'], function (_, Backbone, Circa
 			this.ev = options.ev;
 			this.presenter = new CircaPresenter(options);
 			_.bindAll(this);
+			this.bindEvents();
+		},
+		bindEvents: function () {
+			this.ev.on('bots:show', this.navigateTo);
 		},
 		editAccount: function () {
 			this.presenter.editAccount();
@@ -40,6 +44,9 @@ define(['underscore','backbone', 'circaPresenter'], function (_, Backbone, Circa
 		},
 		notFound: function () {
 			this.presenter.showNotFound();
+		},
+		navigateTo: function (path) {
+			this.navigate(path, true);
 		}
 	});
 
