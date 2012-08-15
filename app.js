@@ -8,8 +8,8 @@ var SITE_SECRET = 'keyboardcat',
 
     RedisStore = require('connect-redis')(express),
     redisClients = {
-        pub: redis.createClient(),
-        sub: redis.createClient(),
+        //pub: redis.createClient(),
+        //sub: redis.createClient(),
         cache: redis.createClient()
     },
     sessionStore = new RedisStore({ client: redisClients.cache }),
