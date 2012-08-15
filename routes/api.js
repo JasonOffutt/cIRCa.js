@@ -14,38 +14,24 @@ exports.users = {
 	},
 	update: function (req, res) {
 		var session = req.session,
-			id = req.body._id;
-
-		// console.log('*** Logging Cached User Before Save ***')
-		// console.log(req.session.auth.user);
+			id = req.body._id,
+			onCacheSave = function (err, user) {
+				if (err) {
+					console.log(err);
+				}
+			},
+			onDbSave = function (err, user) {
+				cacheService.updateUser(req, user, onCacheSave);
+			};
 
 		if (session.auth.user._id === id) {
-			repository.users.save(req.body, function (err, user) {
-				//console.log(req);
+			repository.users.save(req.body, onDbSave);
 
-				cacheService.updateUser(req, user, function (er, user) {
-					if (er) {
-						console.log(er);
-					}
-
-					console.log(user);
-				});
-
-				// Make sure the cached user record gets updated in session after successful save.
-				// Setting this here, but it doesn't seem to propagate to redis...
-				// Consider publishing to redis and update elsewhere?
-				// session.auth.user = user;
-				// console.log('*** Acutal User Saved To Database ***');
-				// console.log(user);
-				// console.log('*** User Being Saved Back To Cache ***');
-				// console.log(session.auth.user);
-			});
-
+			// TODO: Should we be more pessimistic and move this return into a callback?
 			res.status(200);
 			return res.json({ success: true });
 		}
 
-		// TODO: Return a 403 status code...
 		res.status(403);
 		return res.json({ err: 'You do not have permission to update this record.' });
 	},
