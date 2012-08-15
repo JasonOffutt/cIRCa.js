@@ -19,6 +19,7 @@
 			editBotView: 			'views/EditBot',
 			events: 				'lib/events',
 			handlebars: 			'vendor/handlebars/handlebars-1.0.0beta6',
+			headerView: 			'views/Header',
 			homePageView: 			'views/HomePage',
 			jquery: 				'vendor/jquery/jquery-1.7.2.min',
 			jqueryExtensions: 		'lib/jqueryExtensions',

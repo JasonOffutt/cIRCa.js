@@ -1,8 +1,20 @@
-define(['jquery'], function ($) {
+define(['jquery', 'json'], function ($, JSON) {
 	'use strict';
 
 	return {
         init: function () {
+            // Adding CSRF token to all AJAX requests that send a data payload to the server...
+            $.ajaxPrefilter(function (options) {
+                if (!options.data) {
+                    return;
+                }
+
+                var csrf = $('#csrf').val(),
+                    data = JSON.parse(options.data);
+                data._csrf = csrf;
+                options.data = JSON.stringify(data);
+            });
+
             // Traffic Cop jQuery plugin to marshall requests being sent to the server.
             // (found here: https://github.com/ifandelse/TrafficCop)
             // You can optionally modify `Backbone.sync` to use this plugin over `$.ajax`

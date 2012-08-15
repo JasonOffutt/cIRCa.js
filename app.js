@@ -1,16 +1,16 @@
 'use strict';
 
-var SITE_SECRET = 'keyboardcat',
-    express = require('express'),
+var express = require('express'),
     redis = require('redis'),
     fs = require('fs'),
     http = require('http'),
+    config = require('./lib/conf').redis,
 
     RedisStore = require('connect-redis')(express),
     redisClients = {
-        pub: redis.createClient(),
-        sub: redis.createClient(),
-        cache: redis.createClient()
+        //pub: redis.createClient(),
+        //sub: redis.createClient(),
+        cache: redis.createClient(config.port, config.host)
     },
     sessionStore = new RedisStore({ client: redisClients.cache }),
 
@@ -21,14 +21,14 @@ var SITE_SECRET = 'keyboardcat',
         http: http,
         express: express,
     });
-
-webServer.configure(__dirname, sessionStore, SITE_SECRET).start();
+redisClients.cache.auth(config.password);
+webServer.configure(__dirname, sessionStore).start();
 
 socketServer.configure({
     server: server, 
     sessionStore: sessionStore, 
     redisClients: redisClients
-}, SITE_SECRET);
+});
 
 ircServer.configure({ redisClients: redisClients }).start();
 socketServer.start();

@@ -1,11 +1,14 @@
-define(['jquery'], function ($) {
+define(['jquery', 'events'], function ($, events) {
 	'use strict';
 
 	return {
 		init: function () {
 			var socket = io.connect();
 			socket.on('connected', function (data) {
-				//console.log(data);
+				if (data.user) {
+					events.trigger('user:loaded', data.user);
+				}
+
 				socket.on('chat', function (chat) {
 					//console.log(chat);
 					var $li = $('<li/>');

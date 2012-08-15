@@ -2,7 +2,8 @@ define(['backbone'], function (Backbone) {
 	'use strict';
 
 	var Bot = Backbone.Model.extend({
-		urlRoot: '/bots',
+		idAttribute: '_id',
+		urlRoot: '/api/v1/bots',
 		validate: function (attrs) {
 			this.validationErrors = [];
 			if (attrs.name && attrs.name === '') {

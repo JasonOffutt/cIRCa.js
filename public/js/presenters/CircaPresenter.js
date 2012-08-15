@@ -7,14 +7,32 @@ define([
 		'botDetailsView',
 		'botListView',
 		'homePageView',
-		'notFoundView'
+		'notFoundView',
+		'headerView',
+		'user'
 	], 
-	function (_, EditAccount, AccountDetails, EditBot, NewBot, BotDetails, BotList, HomePage, NotFound) {
+	function (_, EditAccount, AccountDetails, EditBot, NewBot, BotDetails, BotList, HomePage, NotFound, Header, User) {
 		'use strict';
 
 		var CircaPresenter = function (options) {
 			this.ev = options.ev;
+			this.user = new User();
 			_.bindAll(this);
+			this.renderParts();
+			this.bindEvents();
+		};
+
+		CircaPresenter.prototype.renderParts = function () {
+			this.header = new Header({ ev: this.ev });
+			this.header.render();
+		};
+
+		CircaPresenter.prototype.bindEvents = function () {
+			var that = this;
+			this.ev.on('user:loaded', function (userData) {
+				that.user.set(userData);
+			});
+			this.ev.on('user:save', this.updateUser);
 		};
 
 		CircaPresenter.prototype.showView = function (view) {
@@ -27,12 +45,12 @@ define([
 		};
 
 		CircaPresenter.prototype.editAccount = function () {
-			var view = new EditAccount({ ev: this.ev });
+			var view = new EditAccount({ ev: this.ev, model: this.user });
 			this.showView(view);
 		};
 
 		CircaPresenter.prototype.showAccount = function () {
-			var view = new AccountDetails({ ev: this.ev });
+			var view = new AccountDetails({ ev: this.ev, model: this.user });
 			this.showView(view);
 		};
 
@@ -52,7 +70,7 @@ define([
 		};
 
 		CircaPresenter.prototype.showBotList = function () {
-			var view = new BotList({ ev: this.ev });
+			var view = new BotList({ ev: this.ev, model: this.user.get('bots') });
 			this.showView(view);
 		};
 
@@ -64,6 +82,16 @@ define([
 		CircaPresenter.prototype.showNotFound = function () {
 			var view = new NotFound({ ev: this.ev });
 			this.showView(view);
+		};
+
+		CircaPresenter.prototype.updateUser = function (attrs) {
+			var promise,
+				that = this;
+			this.user.set(attrs);
+			promise = this.user.save();
+			promise.done(function (data) {
+				that.ev.trigger('user:updated', '/account');
+			});
 		};
 
 		return CircaPresenter;
