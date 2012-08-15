@@ -7,11 +7,12 @@ html
     link(rel='stylesheet', href='/css/bootstrap-responsive.min.css')
     link(rel='stylesheet', href='/css/style.css')
   body
+    input(type='hidden', id='csrf', name='_csrf', value='#{csrf}')
     header
         include _header
     div#main-content
         block content
     footer
         include _footer
-    script(type='text/javascript', src='socket.io/socket.io.js')
-    script(type='text/javascript', src='js/vendor/require/require-2.0.5.min.js', data-main='js/main')
+    script(type='text/javascript', src='/socket.io/socket.io.js')
+    script(type='text/javascript', src='/js/vendor/require/require-2.0.5.min.js', data-main='/js/main')

@@ -5,15 +5,19 @@ define(['underscore', 'backbone', 'templateManager'], function (_, Backbone, Tem
 		template: 'account',
 		className: 'account-details',
 		events: {
-			'click a': 'botsClicked'
+			'click .bot-list': 'botsClicked',
+			'click .user-edit': 'editClicked'
 		},
 		initialize: function (options) {
 			this.ev = options.ev;
+			this.model = options.model;
+			_.bindAll(this);
+			this.model.on('change', this.render);
 		},
 		render: function () {
 			var that = this;
 			TemplateManager.get(this.template, function (tmp) {
-				var html = tmp();
+				var html = tmp(that.model.toJSON());
 				that.$el.html(html);
 			});
 
@@ -22,6 +26,13 @@ define(['underscore', 'backbone', 'templateManager'], function (_, Backbone, Tem
 		botsClicked: function (e) {
 			this.ev.trigger('bots:show', $(e.currentTarget).attr('href'));
 			return false;
+		},
+		editClicked: function (e) {
+			this.ev.trigger('user:edit', $(e.currentTarget).attr('href'));
+			return false;
+		},
+		onClose: function () {
+			this.model.off('change');
 		}
 	});
 

@@ -1,2 +1,8 @@
-<h1>Welcome to your account details page</h1>
-See a list of your <a href="bots">Bots</a>
+<h1>Howdy {{name}}!</h1>
+{{#if email}}
+<p><label>Email: </label><strong>{{email}}</strong></p>
+{{/if}}
+<ul>
+	<li><a href="/account/edit" class="user-edit">Edit your personal information</a></li>
+	<li><a href="/bots" class="bot-list">See a list of your bots</a></li>
+</ul>
