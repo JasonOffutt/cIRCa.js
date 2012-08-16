@@ -1,0 +1,23 @@
+<form action="#" method="post" id="bot-form" class="form-horizontal">
+	<fieldset>
+		<legend>Bot Details</legend>
+		<div class="control-group">
+			<label class="control-label" for="name">Name</label>
+			<div class="controls">
+				<input type="text" id="name" value="{{name}}" placeholder="Super cool bot" class="span3 input-xlarge" />
+				<span class="help-block"></span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="server">Server</label>
+			<div class="controls">
+				<input type="url" id="server" value="{{server}}" placeholder="chat.freenode.net" class="span3 input-xlarge" />
+				<span class="help-block"></span>
+			</div>
+		</div>
+		<div class="control-group buttonset">
+			<input type="submit" value="Save" id="save" class="btn-success btn-large" />
+			<a href="/bots" class="cancel">Cancel</a>
+		</div>
+	</fieldset>
+</form>

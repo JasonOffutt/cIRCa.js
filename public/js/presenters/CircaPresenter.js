@@ -70,7 +70,7 @@ define([
 		};
 
 		CircaPresenter.prototype.showBotList = function () {
-			var view = new BotList({ ev: this.ev, model: this.user.get('bots') });
+			var view = new BotList({ ev: this.ev, model: this.user });
 			this.showView(view);
 		};
 

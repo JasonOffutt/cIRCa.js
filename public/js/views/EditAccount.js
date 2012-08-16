@@ -5,7 +5,7 @@ define(['underscore' ,'backbone', 'templateManager'], function (_, Backbone, Tem
 		template: 'account-edit',
 		className: 'edit-account',
 		events: {
-			'click .save': 'saveClicked',
+			'click #save': 'saveClicked',
 			'click .cancel': 'cancelClicked'
 		},
 		initialize: function (options) {

@@ -19,10 +19,16 @@ define(['underscore','backbone', 'circaPresenter'], function (_, Backbone, Circa
 			this.bindEvents();
 		},
 		bindEvents: function () {
-			this.ev.on('bots:show', this.navigateTo);
-			this.ev.on('user:show', this.navigateTo);
-			this.ev.on('user:edit', this.navigateTo);
-			this.ev.on('user:updated', this.navigateTo);
+			this.events = [
+				'bots:list',
+				'bots:show',
+				'bots:new',
+				'user:show',
+				'user:edit',
+				'user:updated'
+			];
+
+			this.ev.on(this.events.join(' '), this.navigateTo);
 		},
 		editAccount: function () {
 			this.presenter.editAccount();

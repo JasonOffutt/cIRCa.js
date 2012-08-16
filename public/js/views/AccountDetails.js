@@ -24,7 +24,7 @@ define(['underscore', 'backbone', 'templateManager'], function (_, Backbone, Tem
 			return this;
 		},
 		botsClicked: function (e) {
-			this.ev.trigger('bots:show', $(e.currentTarget).attr('href'));
+			this.ev.trigger('bots:list', $(e.currentTarget).attr('href'));
 			return false;
 		},
 		editClicked: function (e) {

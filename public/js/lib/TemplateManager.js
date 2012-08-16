@@ -2,6 +2,9 @@ define(['jquery' ,'underscore', 'handlebars'], function ($, _, Handlebars) {
 	'use strict';
 
 	var TemplateManager = {
+		partials: [
+			{ name: 'botForm', template: 'bot-form' }
+		],
 	    templates: {},
 	    get: function (id, callback) {
 	        // If the template is already in the cache, just return it.
@@ -18,6 +21,19 @@ define(['jquery' ,'underscore', 'handlebars'], function ($, _, Handlebars) {
 	            that.templates[id] = tmp;
 	            callback.call(that, tmp);
 	        });
+	    },
+	    registerPartials: function (callback) {
+	    	var that = this;
+
+	    	_.each(this.partials, function (partial, index) {
+	    		that.get(partial.template, function (tmp) {
+	    			Handlebars.registerPartial(partial.name, tmp);
+
+	    			if (index + 1 === that.partials.length) {
+	    				callback();
+	    			}
+	    		});
+	    	});
 	    }
 	};
 

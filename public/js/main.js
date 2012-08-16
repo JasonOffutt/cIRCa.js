@@ -61,17 +61,19 @@
 					'underscore', 
 					'backbone', 
 					'backboneExtensions', 
+					'templateManager',
 					'events',
 					'socketClient', 
 					'circaRouter'
 				], 
-				function ($, jqueryExtensions, _, Backbone, backboneExtensions, events, socketClient, CircaRouter) {
+				function ($, jqueryExtensions, _, Backbone, backboneExtensions, TemplateManager, events, socketClient, CircaRouter) {
 					jqueryExtensions.init();
 					backboneExtensions.init();
 					socketClient.init();
-
-					var router = new CircaRouter({ ev: events });
-					Backbone.history.start({ pushState: true });
+					TemplateManager.registerPartials(function () {
+						var router = new CircaRouter({ ev: events });
+						Backbone.history.start({ pushState: true });
+					});
 				});
 		}
 	});
