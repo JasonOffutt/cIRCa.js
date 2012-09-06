@@ -15,6 +15,20 @@
 				<span class="help-block"></span>
 			</div>
 		</div>
+		<div class="control-group">
+			<label class="control-label" for="add-channel">Add Channels</label>
+			<div class="controls">
+				<div>
+					<input type="text" id="add-channel" placeholder="#SomeChannel" class="span3 input-xlarge" />
+					<a href="#" class="add btn-primary btn">Add</a>
+				</div>
+				<ul id="channels">
+				{{#each channels}}
+					{{> channelListItem}}
+				{{/each}}
+				</ul>
+			</div>
+		</div>
 		<div class="control-group buttonset">
 			<input type="submit" value="Save" id="save" class="btn-success btn-large" />
 			<a href="/bots" class="cancel">Cancel</a>

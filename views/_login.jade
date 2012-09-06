@@ -9,7 +9,7 @@ aside#userlogin
         - else if (everyauth.google)
             span Welcome 
                 a(href='/account', class='account') #{everyauth.google.user.name}
-        a(href='logout') Log out
+        a(href='/logout') Log out
     - else
         ul
             li

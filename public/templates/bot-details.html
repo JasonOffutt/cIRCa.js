@@ -1,0 +1,19 @@
+<h1>{{name}}</h1>
+<strong>{{server}}</strong>
+<ul>
+{{#each channels}}
+	<li>{{this}}</li>
+{{/each}}
+</ul>
+<div class="button-set">
+	<ul>
+	{{#if isRunning}}
+		<li><input type="submit" id="stop" class="btn-warning btn-large" value="Stop" /></li>
+	{{else}}
+		<li><input type="submit" id="start" class="btn-success btn-large" value="Start" /></li>
+	{{/if}}
+		<li><input type="submit" id="edit" class="btn-info btn-large" value="Edit" /></li>
+		<li><a href="/bots" id="back" title="back">Back</a></li>
+		<li class="right"><input type="submit" value="Delete" id="delete" class="btn-danger btn-large" /></li>
+	</ul>
+</div>

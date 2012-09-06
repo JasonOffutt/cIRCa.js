@@ -23,6 +23,8 @@ define(['underscore','backbone', 'circaPresenter'], function (_, Backbone, Circa
 				'bots:list',
 				'bots:show',
 				'bots:new',
+				'bot:saved',
+				'bot:destroyed',
 				'user:show',
 				'user:edit',
 				'user:updated'

@@ -3,16 +3,10 @@ define(['jquery', 'json'], function ($, JSON) {
 
 	return {
         init: function () {
-            // Adding CSRF token to all AJAX requests that send a data payload to the server...
-            $.ajaxPrefilter(function (options) {
-                if (!options.data) {
-                    return;
-                }
+            var csrf = $('#csrf').val();
 
-                var csrf = $('#csrf').val(),
-                    data = JSON.parse(options.data);
-                data._csrf = csrf;
-                options.data = JSON.stringify(data);
+            $.ajaxSetup({
+                headers: { 'x-csrf-token': csrf }
             });
 
             // Traffic Cop jQuery plugin to marshall requests being sent to the server.

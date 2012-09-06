@@ -11,9 +11,11 @@ define(['underscore', 'backbone'], function (_, Backbone) {
 			this.ev = options.ev;
 			this.model = options.model;
 			_.bindAll(this);
+			//this.model.on('change', this.render);
 		},
 		render: function () {
 			// TODO: Does anything more need to be done here?
+
 			return this;
 		},
 		accountClicked: function (e) {

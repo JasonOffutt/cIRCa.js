@@ -9,9 +9,10 @@ define([
 		'homePageView',
 		'notFoundView',
 		'headerView',
+		'bot',
 		'user'
 	], 
-	function (_, EditAccount, AccountDetails, EditBot, NewBot, BotDetails, BotList, HomePage, NotFound, Header, User) {
+	function (_, EditAccount, AccountDetails, EditBot, NewBot, BotDetails, BotList, HomePage, NotFound, Header, Bot, User) {
 		'use strict';
 
 		var CircaPresenter = function (options) {
@@ -33,6 +34,10 @@ define([
 				that.user.set(userData);
 			});
 			this.ev.on('user:save', this.updateUser);
+			this.ev.on('bots:save', this.saveBot);
+			this.ev.on('bot:start', this.startBot);
+			this.ev.on('bot:stop', this.stopBot);
+			this.ev.on('bot:delete', this.deleteBot);
 		};
 
 		CircaPresenter.prototype.showView = function (view) {
@@ -65,7 +70,8 @@ define([
 		};
 
 		CircaPresenter.prototype.showBot = function (id) {
-			var view = new BotDetails({ ev: this.ev });
+			var bot = this.user.getBot(id),
+				view = new BotDetails({ ev: this.ev, model: new Bot(bot) });
 			this.showView(view);
 		};
 
@@ -91,6 +97,59 @@ define([
 			promise = this.user.save();
 			promise.done(function (data) {
 				that.ev.trigger('user:updated', '/account');
+			});
+		};
+
+		CircaPresenter.prototype.saveBot = function (attrs) {
+			var promise,
+				that = this,
+				bot = new Bot(attrs),
+				promise;
+			
+			bot.set({ userId: this.user.get('_id') });
+			this.user.addBot(attrs);
+			promise = bot.save();
+			promise.done(function (data) {
+				that.ev.trigger('bot:saved', '/bots');
+			});
+		};
+
+		CircaPresenter.prototype.startBot = function (bot) {
+			var that = this,
+				promise,
+				botId = bot.get('_id');
+
+			bot.set({ isRunning: true, userId: this.user.get('_id') });
+			promise = bot.save();
+			promise.done(function (data) {
+				that.user.updateBot(botId, bot.toJSON());
+				that.ev.trigger('bot:startComplete');
+			});
+		};
+
+		CircaPresenter.prototype.stopBot = function (bot) {
+			var that = this,
+				promise, 
+				botId = bot.get('_id');
+
+			bot.set({ isRunning: false, userId: this.user.get('_id') });
+			promise = bot.save();
+			promise.done(function (data) {
+				that.user.updateBot(botId, bot.toJSON());
+				that.ev.trigger('bot:stopComplete');
+			});
+		};
+
+		CircaPresenter.prototype.deleteBot = function (bot) {
+			var that = this,
+				promise,
+				botId = bot.get('_id');
+
+			bot.set({ userId: this.user.get('_id') }, { silent: true });
+			promise = bot.destroy();
+			promise.done(function (data) {
+				that.user.removeBot(botId);
+				that.ev.trigger('bot:destroyed', '/bots');
 			});
 		};
 

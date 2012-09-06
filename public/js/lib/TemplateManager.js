@@ -3,7 +3,8 @@ define(['jquery' ,'underscore', 'handlebars'], function ($, _, Handlebars) {
 
 	var TemplateManager = {
 		partials: [
-			{ name: 'botForm', template: 'bot-form' }
+			{ name: 'botForm', template: 'bot-form' },
+			{ name: 'channelListItem', template: 'channel-list-item' }
 		],
 	    templates: {},
 	    get: function (id, callback) {
